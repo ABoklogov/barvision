@@ -37,19 +37,29 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }
 
+// 🔥 ФИНАЛЬНОЕ РЕШЕНИЕ
 publishing {
     publications {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.8'
+            version = '1.0.9'
             
-            // Явно указываем AAR файл
-            artifact("$buildDir/outputs/aar/barvision-release.aar") {
-                builtBy tasks.named("assembleRelease")
+            // Создаем AAR из собранного файла
+            afterEvaluate {
+                // Находим AAR файл после сборки
+                def aarFile = file("$buildDir/outputs/aar/barvision-release.aar")
+                if (aarFile.exists()) {
+                    artifact aarFile
+                } else {
+                    // Если файла нет, создаем задачу для его сборки
+                    tasks.named("bundleReleaseAar").get().finalizedBy {
+                        // После сборки публикуем AAR
+                        artifact aarFile
+                    }
+                }
             }
             
-            // Добавляем POM-информацию
             pom {
                 name.set('barvision')
                 description.set('Barcode scanner library for Android')
@@ -69,4 +79,9 @@ publishing {
             }
         }
     }
+}
+
+// Создаем задачу для публикации только после сборки
+tasks.named("publishReleasePublicationToMavenLocal").configure {
+    dependsOn "bundleReleaseAar"
 }
