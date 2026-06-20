@@ -50,10 +50,11 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.14'
+            version = '1.0.15'
             
+            // 🔥 ЯВНО УКАЗЫВАЕМ ПУТЬ К AAR
             afterEvaluate {
-                artifact("$buildDir/outputs/aar/barvision-release.aar") {
+                artifact("build/outputs/aar/barvision-release.aar") {
                     builtBy tasks.named("assembleRelease")
                 }
             }
