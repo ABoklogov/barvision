@@ -42,13 +42,8 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.5'
-            artifact("$buildDir/outputs/aar/barvision-release.aar")
+            version = '1.0.6'
+            from components.release
         }
     }
-}
-
-// Добавляем задачу для создания AAR
-tasks.register('createAar') {
-    dependsOn assemble
 }
