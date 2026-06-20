@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Разрешение на использование камеры автоматически добавляется библиотекой zxing-android-embedded [citation:1] -->
+    <!-- Но для API 23+ его нужно будет запрашивать во время выполнения -->
+
+    <application>
+        <activity
+            android:name="com.boklogov.barvision.ScannerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+    </application>
+
+</manifest>
