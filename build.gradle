@@ -1,31 +1,11 @@
-plugins {
-    id 'com.android.library'
-    id 'maven-publish'
-}
-
-android {
-    compileSdk 34
-    namespace 'com.boklogov.barvision'
-    
-    defaultConfig {
-        minSdk 24
+buildscript {
+    ext.kotlin_version = "1.8.20"
+    repositories {
+        google()
+        mavenCentral()
     }
-}
-
-dependencies {
-    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-}
-
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'com.github.ABoklogov'
-            artifactId = 'barvision'
-            version = '1.0.17'
-
-            afterEvaluate {
-                from components.release
-            }
-        }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
