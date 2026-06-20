@@ -8,9 +8,11 @@ buildscript {
     }
 }
 
-repositories {
-    google()
-    mavenCentral()
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 
 apply plugin: 'com.android.library'
@@ -37,51 +39,14 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }
 
-// 🔥 ФИНАЛЬНОЕ РЕШЕНИЕ
 publishing {
     publications {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.9'
+            version = '1.0.10'
             
-            // Создаем AAR из собранного файла
-            afterEvaluate {
-                // Находим AAR файл после сборки
-                def aarFile = file("$buildDir/outputs/aar/barvision-release.aar")
-                if (aarFile.exists()) {
-                    artifact aarFile
-                } else {
-                    // Если файла нет, создаем задачу для его сборки
-                    tasks.named("bundleReleaseAar").get().finalizedBy {
-                        // После сборки публикуем AAR
-                        artifact aarFile
-                    }
-                }
-            }
-            
-            pom {
-                name.set('barvision')
-                description.set('Barcode scanner library for Android')
-                url.set('https://github.com/ABoklogov/barvision')
-                licenses {
-                    license {
-                        name.set('MIT License')
-                        url.set('https://opensource.org/licenses/MIT')
-                    }
-                }
-                developers {
-                    developer {
-                        id.set('ABoklogov')
-                        name.set('Alexey Boklogov')
-                    }
-                }
-            }
+            from components.findByName('release')
         }
     }
-}
-
-// Создаем задачу для публикации только после сборки
-tasks.named("publishReleasePublicationToMavenLocal").configure {
-    dependsOn "bundleReleaseAar"
 }
