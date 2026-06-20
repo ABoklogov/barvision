@@ -39,7 +39,6 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }
 
-// 🔥 ЗАДАЧА ДЛЯ ИСХОДНИКОВ
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     archiveClassifier.set('sources')
@@ -50,12 +49,12 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.15'
+            version = '1.0.16'
             
-            // 🔥 ЯВНО УКАЗЫВАЕМ ПУТЬ К AAR
+            // 🔥 ИСПРАВЛЕННЫЙ ПУТЬ: используем buildDir
             afterEvaluate {
-                artifact("build/outputs/aar/barvision-release.aar") {
-                    builtBy tasks.named("assembleRelease")
+                artifact("$buildDir/outputs/aar/barvision-release.aar") {
+                    builtBy tasks.named("bundleReleaseAar")
                 }
             }
             
