@@ -42,9 +42,30 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.7'
-            afterEvaluate {
-                from components.release
+            version = '1.0.8'
+            
+            // Явно указываем AAR файл
+            artifact("$buildDir/outputs/aar/barvision-release.aar") {
+                builtBy tasks.named("assembleRelease")
+            }
+            
+            // Добавляем POM-информацию
+            pom {
+                name.set('barvision')
+                description.set('Barcode scanner library for Android')
+                url.set('https://github.com/ABoklogov/barvision')
+                licenses {
+                    license {
+                        name.set('MIT License')
+                        url.set('https://opensource.org/licenses/MIT')
+                    }
+                }
+                developers {
+                    developer {
+                        id.set('ABoklogov')
+                        name.set('Alexey Boklogov')
+                    }
+                }
             }
         }
     }
