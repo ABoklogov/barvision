@@ -1,47 +1,19 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.1'
-    }
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
 }
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 
 android {
-    namespace 'com.boklogov.barvision'
     compileSdk 34
-
+    namespace 'com.boklogov.barvision'
+    
     defaultConfig {
         minSdk 24
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'com.google.android.material:material:1.11.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier.set('sources')
 }
 
 publishing {
@@ -49,33 +21,10 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.16'
-            
-            // 🔥 ИСПРАВЛЕННЫЙ ПУТЬ: используем buildDir
+            version = '1.0.17'
+
             afterEvaluate {
-                artifact("$buildDir/outputs/aar/barvision-release.aar") {
-                    builtBy tasks.named("bundleReleaseAar")
-                }
-            }
-            
-            artifact sourceJar
-            
-            pom {
-                name.set('barvision')
-                description.set('Barcode scanner library for Android')
-                url.set('https://github.com/ABoklogov/barvision')
-                licenses {
-                    license {
-                        name.set('MIT License')
-                        url.set('https://opensource.org/licenses/MIT')
-                    }
-                }
-                developers {
-                    developer {
-                        id.set('ABoklogov')
-                        name.set('Alexey Boklogov')
-                    }
-                }
+                from components.release
             }
         }
     }
