@@ -33,7 +33,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.ABoklogov'
             artifactId = 'barvision'
-            version = '1.0.0'
+            version = '1.0.1'
 
             afterEvaluate {
                 from components.release

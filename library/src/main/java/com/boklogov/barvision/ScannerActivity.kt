@@ -7,17 +7,30 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 
 class ScannerActivity : AppCompatActivity() {
+    // Константа для ключа результата
+    companion object {
+        const val EXTRA_BARCODE_TEXT = "barcode_text"
+        const val EXTRA_BARCODE_FORMAT = "barcode_format"
+    }
+
     // Регистрируем контракт для запуска сканера и получения результата
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
-            // Пользователь нажал "Назад" или закрыл сканер
+            // Пользователь отменил сканирование
             Toast.makeText(this, "Сканирование отменено", Toast.LENGTH_SHORT).show()
+            setResult(RESULT_CANCELED)
+            finish()
         } else {
             // Штрихкод успешно отсканирован!
             val barcodeText = result.contents
             val barcodeFormat = result.formatName
-            // Здесь вы можете обработать результат: сохранить, отправить в API и т.д.
-            Toast.makeText(this, "Отсканировано: $barcodeText (Формат: $barcodeFormat)", Toast.LENGTH_LONG).show()
+            
+            // передаем результат
+            val intent = Intent().apply {
+                putExtra(EXTRA_BARCODE_TEXT, barcodeText)
+                putExtra(EXTRA_BARCODE_FORMAT, barcodeFormat)
+            }
+            setResult(RESULT_OK, intent)
             finish() // Закрываем активити после сканирования
         }
     }
