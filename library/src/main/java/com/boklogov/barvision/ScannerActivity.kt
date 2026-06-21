@@ -7,7 +7,6 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 
 class ScannerActivity : AppCompatActivity() {
-
     // Регистрируем контракт для запуска сканера и получения результата
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents == null) {
