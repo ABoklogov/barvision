@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 
-class ScannerActivity : AppCompatActivity() {
+class ScannerActivity: AppCompatActivity() {
     // Константа для ключа результата
     companion object {
         const val EXTRA_BARCODE_TEXT = "barcode_text"
@@ -41,7 +41,7 @@ class ScannerActivity : AppCompatActivity() {
 
         // Настраиваем параметры сканирования
         val options = ScanOptions()
-        options.setPrompt("Наведите камеру на штрихкод") // Текст подсказки
+        options.setPrompt("") // Текст подсказки
         options.setBeepEnabled(true) // Включать звук при успешном сканировании
         options.setOrientationLocked(false) // Разрешить смену ориентации
         options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES) // Сканировать все типы
